@@ -1,0 +1,1342 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --mouse-px-x: 50vw;
+    --mouse-px-y: 50vh;
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --spot-intensity: 0.18;
+    --parallax-rings-x: 0px;
+    --parallax-rings-y: 0px;
+    --parallax-meta-x: 0px;
+    --parallax-meta-y: 0px;
+    --parallax-spot-x: 0px;
+    --parallax-spot-y: 0px;
+    --btn-angle: 135deg;
+  }
+
+  html {
+    background-color: #000000;
+    color: #e5e5e5;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  body {
+    background-color: #000000;
+    color: #e5e5e5;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+/* Custom Typography Styles */
+.font-giant {
+  font-family: 'Anton', 'Impact', sans-serif;
+  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.font-micro {
+  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, monospace;
+  letter-spacing: 0.16em;
+}
+
+/* Film Grain Overlay */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 40;
+}
+
+/* Architectural Deep Backdrop Typography: "ADITHYA" */
+.adithya-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.adithya-text-base {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(6.5rem, 20vw, 23vw);
+  line-height: 0.8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #030303;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+/* Dynamic Rim-Lighting Layer illuminated around cursor coordinates */
+.adithya-text-rim {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(6.5rem, 20vw, 23vw);
+  line-height: 0.8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: transparent;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.88);
+  text-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 55px rgba(255, 255, 255, 0.25);
+  -webkit-mask-image: radial-gradient(380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, rgba(0, 0, 0, 0.75) 30%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+  mask-image: radial-gradient(380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, rgba(0, 0, 0, 0.75) 30%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+  transition: -webkit-mask-image 0.04s ease-out, mask-image 0.04s ease-out;
+  will-change: mask-image, -webkit-mask-image;
+}
+
+/* Interactive 'D' Letter with Running Red Laser Lines */
+.target-letter-d {
+  pointer-events: auto !important;
+  cursor: crosshair;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.target-letter-d:hover,
+.target-letter-d.is-hovered {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 1.5px #ff1a3c !important;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 55, 0) 0px,
+    rgba(255, 0, 55, 0) 4px,
+    #ff003c 5px,
+    #ff3355 7px,
+    #ff003c 8px,
+    rgba(255, 0, 55, 0) 10px,
+    rgba(255, 0, 55, 0) 16px
+  );
+  background-size: 100% 32px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: run-red-lines 0.75s linear infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.95)) drop-shadow(0 0 35px rgba(255, 0, 40, 0.65));
+  text-shadow: 0 0 25px rgba(255, 0, 60, 0.9), 0 0 50px rgba(255, 0, 40, 0.5);
+}
+
+@keyframes run-red-lines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 32px;
+  }
+}
+
+/* Interactive cold white spotlight with dampened parallax displacement */
+.spotlight-layer {
+  background: radial-gradient(circle 650px at calc(var(--mouse-x, 50%) + var(--parallax-spot-x, 0px)) calc(var(--mouse-y, 50%) + var(--parallax-spot-y, 0px)), rgba(225, 238, 255, var(--spot-intensity, 0.18)) 0%, rgba(210, 225, 250, 0.08) 32%, rgba(200, 215, 245, 0.02) 56%, transparent 72%);
+  pointer-events: none;
+  transition: background 0.08s ease-out;
+}
+
+/* Architectural vignette gradient */
+.vignette-layer {
+  background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.94) 100%);
+  pointer-events: none;
+}
+
+/* 3D Perspective Tilt on Central Concentric Ring and Telemetry Planes */
+.orbital-perspective-stage {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.orbit-container-parallax {
+  transform: translate3d(var(--parallax-rings-x, 0px), var(--parallax-rings-y, 0px), 0) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  will-change: transform;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.outer-orbit-ring {
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  animation: aperture-breathe 8s ease-in-out infinite alternate;
+}
+
+.inner-orbit-ring {
+  border: 1px dotted rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  animation: cipher-ring-pulse 5.5s ease-in-out infinite;
+}
+
+@keyframes aperture-breathe {
+  0% {
+    box-shadow: 0 0 50px -10px rgba(255, 255, 255, 0.02), inset 0 0 35px rgba(255, 255, 255, 0.015);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  100% {
+    box-shadow: 0 0 100px -5px rgba(255, 255, 255, 0.08), inset 0 0 55px rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes cipher-ring-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.02);
+  }
+  50% {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.07);
+  }
+}
+
+/* Counter-Rotating Orbitals: Outer (CW 55s) & Inner (CCW 36s) */
+.orbit-outer-rotator {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  animation: orbit-cw 55s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes orbit-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.orbit-inner-rotator {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  animation: orbit-ccw 36s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes orbit-ccw {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* Outer Vertex Beacon with Luminous Trail & Soft Glowing Halation Ring */
+.outer-beacon {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 0 16px 5px rgba(255, 255, 255, 0.95), 0 0 36px 12px rgba(255, 255, 255, 0.45);
+  animation: beacon-shimmer-pulse 3.8s ease-in-out infinite;
+}
+
+/* Halation aura expansion */
+.outer-beacon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.12) 50%, transparent 75%);
+  pointer-events: none;
+  animation: beacon-aura-breathe 2.6s ease-in-out infinite alternate;
+}
+
+.outer-beacon::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: -22px;
+  width: 32px;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), #ffffff);
+  filter: blur(1px);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* Inner Cipher Beacon with Soft Pulsing Halation Ring */
+.inner-beacon {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.9), 0 0 32px 10px rgba(255, 255, 255, 0.4);
+  animation: cipher-beacon-pulse 3.2s ease-in-out infinite;
+}
+
+.inner-beacon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.08) 55%, transparent 80%);
+  pointer-events: none;
+  animation: beacon-aura-breathe 3.1s ease-in-out infinite alternate;
+}
+
+.inner-beacon::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  right: -20px;
+  width: 28px;
+  height: 3.5px;
+  border-radius: 9999px;
+  background: linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.45), #ffffff);
+  filter: blur(1px);
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+@keyframes beacon-shimmer-pulse {
+  0%, 100% {
+    box-shadow: 0 0 14px 3px rgba(255, 255, 255, 0.9), 0 0 28px 8px rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 24px 7px rgba(255, 255, 255, 1), 0 0 48px 16px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes beacon-aura-breathe {
+  0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(1.35); opacity: 0.98; }
+}
+
+@keyframes cipher-beacon-pulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(0.9);
+    box-shadow: 0 0 12px 3px rgba(255, 255, 255, 0.85), 0 0 24px 6px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.35);
+    box-shadow: 0 0 24px 7px rgba(255, 255, 255, 1), 0 0 44px 14px rgba(255, 255, 255, 0.55);
+  }
+}
+
+/* Ambient Floating Telemetry & Code Fragments with Subtle Breathing */
+.telemetry-parallax-container {
+  transform: translate3d(var(--parallax-meta-x, 0px), var(--parallax-meta-y, 0px), 0) rotateX(calc(var(--tilt-x, 0deg) * 0.85)) rotateY(calc(var(--tilt-y, 0deg) * 0.85));
+  will-change: transform;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.telemetry-node-breathe {
+  animation: float-telemetry-breath 7s ease-in-out infinite alternate;
+}
+
+@keyframes float-telemetry-breath {
+  0% { transform: translateY(0px); opacity: 0.26; }
+  50% { transform: translateY(-4px); opacity: 0.36; }
+  100% { transform: translateY(3px); opacity: 0.28; }
+}
+
+/* Interactive Proximity Telemetry with Phosphor Border Glow on Hover */
+.proximity-fragment {
+  position: absolute;
+  pointer-events: auto;
+  user-select: none;
+  transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease, color 0.3s ease, text-shadow 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.28;
+  filter: blur(0.2px);
+  cursor: crosshair;
+  border: 1px solid transparent;
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.proximity-fragment:hover,
+.proximity-fragment.illuminated {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  transform: scale(1.06) !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 18px 2px rgba(255, 255, 255, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.08);
+  background: rgba(12, 12, 12, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+/* Cardinal Markers: Luminescence & Phosphor Glow */
+.orbit-cardinal {
+  transition: color 0.25s ease, text-shadow 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  cursor: crosshair;
+  pointer-events: auto;
+  border: 1px solid transparent;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.orbit-cardinal:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.95);
+  transform: translateX(-50%) scale(1.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 14px 1px rgba(255, 255, 255, 0.2);
+  background: rgba(14, 14, 14, 0.8);
+}
+
+.orbit-cardinal.orbit-cardinal-vert:hover {
+  transform: translateY(-50%) scale(1.12);
+}
+
+/* MONUMENTAL HERO HEADLINE: 100% Solid Opacity (#FFFFFF, Opacity: 1.0) with No Alpha Bleeding */
+.hero-solid-monolith {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+  transition: text-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-interactive-title:hover .hero-solid-monolith {
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.65), 0 0 85px rgba(255, 255, 255, 0.35), 0 0 140px rgba(255, 255, 255, 0.18);
+}
+
+.hero-interactive-title {
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Navigation Links: Letter spacing expansion on hover + crisp white transition */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease, letter-spacing 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s ease;
+  display: inline-block;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.95);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+.nav-link:hover, .nav-link.active-link {
+  color: #ffffff !important;
+  letter-spacing: 0.34em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.85);
+}
+.nav-link:hover::after, .nav-link.active-link::after {
+  width: 100%;
+  box-shadow: 0 0 12px 2px rgba(255, 255, 255, 1);
+}
+
+/* Radar ping */
+.radar-ping-anim {
+  animation: radar-ping-anim 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes radar-ping-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  70%, 100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* CONNECT Button: Magnetic Lift, Glowing Border Sweep, and Active Press */
+.btn-connect-glow {
+  position: relative;
+  background: linear-gradient(180deg, rgba(16, 16, 16, 0.96), rgba(6, 6, 6, 0.98));
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+  will-change: transform;
+}
+.btn-connect-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  padding: 1px;
+  background: linear-gradient(
+    var(--btn-angle, 135deg),
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.5) 45%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.5) 55%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0.6;
+}
+.btn-connect-glow:hover {
+  box-shadow: 0 0 28px 4px rgba(255, 255, 255, 0.35);
+}
+.btn-connect-glow:hover::before {
+  opacity: 1;
+  animation: border-sweep-shift 2.2s linear infinite;
+}
+.btn-connect-glow:active {
+  transform: scale(0.96) !important;
+  box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes border-sweep-shift {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+  100% { filter: brightness(1); }
+}
+
+/* Dynamic Brand Ticker Flipping Styles */
+.brand-ticker-stage {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 290px;
+  height: 20px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.brand-ticker-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.brand-ticker-item.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.brand-ticker-item.exiting {
+  opacity: 0;
+  transform: translateY(-7px);
+}
+
+/* Red accent styling for 3D/graphics terms */
+.accent-3d {
+  color: #ff003c;
+  text-shadow: 0 0 10px rgba(255, 0, 60, 0.55);
+  font-weight: 500;
+}
+
+/* Custom Cyber Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* Scanline Overlay for Modals/Terminal */
+.cyber-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+}
+
+/* Accessibility / Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .outer-orbit-ring,
+  .inner-orbit-ring,
+  .orbit-outer-rotator,
+  .orbit-inner-rotator,
+  .outer-beacon,
+  .outer-beacon::before,
+  .inner-beacon,
+  .inner-beacon::before,
+  .telemetry-node-breathe,
+  .target-letter-d {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-interactive-title,
+  .orbit-container-parallax,
+  .telemetry-parallax-container {
+    transform: none !important;
+  }
+  .spotlight-layer {
+    background: radial-gradient(circle at 50% 50%, rgba(225, 238, 255, 0.16) 0%, transparent 65%) !important;
+  }
+  .brand-ticker-item {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+  }
+}
+
+/* 3D Ticker Perspective & Flip Card Transitions for Connect Page */
+.ticker-perspective {
+  perspective: 600px;
+}
+.ticker-flip-card {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+.ticker-flip-card.flipping {
+  transform: rotateX(-90deg);
+  opacity: 0;
+}
+.ticker-flip-card.entering {
+  transform: rotateX(90deg);
+  opacity: 0;
+}
+.ticker-flip-card.entered {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+/* Hide scrollbars for console scroller */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================================================= */
+/* VARIANT 4: STROBOSCOPIC SHUTTER PULSE & OPTICAL IRIS CLAMP TRANSITION     */
+/* ========================================================================= */
+#page-stage {
+  transition: filter 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: filter, transform;
+}
+
+.strobe-dark-cut,
+.strobe-flash-white,
+.strobe-negative-snap {
+  will-change: filter, transform;
+}
+
+/* Stage 1: Fast rhythmic 3-step stroboscopic shutter states */
+.strobe-dark-cut {
+  filter: brightness(0) contrast(300%) !important;
+  transform: scale(0.992) !important;
+}
+
+.strobe-flash-white {
+  filter: brightness(3.5) contrast(180%) saturate(0) !important;
+  transform: scale(1.018) !important;
+}
+
+.strobe-negative-snap {
+  filter: invert(1) contrast(220%) brightness(1.2) hue-rotate(180deg) saturate(180%) !important;
+  transform: scale(1.025) !important;
+}
+
+/* Stage 2: Mechanical shutter blades overlay */
+#strobe-shutter-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.95) 0px,
+    rgba(0, 0, 0, 0.95) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  mix-blend-mode: multiply;
+  transition: opacity 0.06s ease;
+}
+#strobe-shutter-curtain.curtain-active {
+  opacity: 0.85;
+}
+
+/* Stage 2: Radial Optical Iris Negative Aperture Shockwave Burst */
+#optical-iris-shockwave {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  backdrop-filter: invert(1) contrast(220%) hue-rotate(180deg);
+  -webkit-backdrop-filter: invert(1) contrast(220%) hue-rotate(180deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black var(--iris-radius, 0%), transparent calc(var(--iris-radius, 0%) + 18%));
+  mask-image: radial-gradient(circle at 50% 50%, black var(--iris-radius, 0%), transparent calc(var(--iris-radius, 0%) + 18%));
+  transition: opacity 0.08s ease-out;
+}
+
+/* Outer dark clamp perimeter vignette during the bloom */
+#optical-iris-shockwave::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent calc(var(--iris-radius, 0%) * 0.7), rgba(0, 0, 0, 0.96) calc(var(--iris-radius, 0%) + 24%));
+  pointer-events: none;
+}
+
+/* White laser shockwave ring edge */
+#optical-iris-shockwave::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  margin: auto;
+  width: calc(var(--iris-radius, 0%) * 2.2);
+  height: calc(var(--iris-radius, 0%) * 2.2);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 40px 10px rgba(255, 0, 60, 0.8), 0 0 80px 20px rgba(255, 255, 255, 0.9), inset 0 0 30px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+#optical-iris-shockwave.iris-active {
+  opacity: 1;
+}
+
+/* High-speed forensic flash burst */
+#flash-bang-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background: #ffffff;
+  mix-blend-mode: screen;
+  transition: opacity 0.05s ease-out;
+  box-shadow: inset 0 0 140px rgba(255, 255, 255, 1);
+}
+
+#flash-bang-fx.flash-burst {
+  opacity: 1 !important;
+}
+
+/* Stage 3: Mechanical Aperture Settling / Optical Calibrate HUD */
+#aperture-clamp-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 9996;
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease-out;
+}
+
+#aperture-clamp-hud.hud-active {
+  opacity: 1;
+}
+
+.iris-blade-reticle {
+  position: relative;
+  width: min(80vw, 720px);
+  height: min(80vw, 720px);
+  border-radius: 9999px;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  animation: iris-reticle-settle 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes iris-reticle-settle {
+  0% {
+    transform: scale(1.6) rotate(60deg);
+    opacity: 0.2;
+  }
+  70% {
+    transform: scale(0.96) rotate(-8deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* ========================================================================= */
+/* SOLARIS APERTURES: WORK HORIZON & TELEMETRY MOTION                        */
+/* ========================================================================= */
+.film-grain {
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0),
+    linear-gradient(rgba(255, 255, 255, 0.008) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 24px 24px, 100% 4px;
+}
+
+.filmstrip-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+.filmstrip-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.filmstrip-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 9999px;
+}
+.filmstrip-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+.filmstrip-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.solaris-lens {
+  background: radial-gradient(circle at 50% 50%, rgba(18, 20, 26, 0.75) 0%, rgba(6, 7, 9, 0.98) 90%);
+  position: relative;
+}
+.solaris-lens::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.filmstrip-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              background-color 0.35s ease,
+              box-shadow 0.35s ease,
+              opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, border-color, box-shadow;
+}
+@media (hover: hover) {
+  .filmstrip-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 255, 255, 0.03);
+  }
+  .filmstrip-item:hover .action-glide-arrow {
+    transform: translateX(4px);
+    color: #ffffff;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.capsule-title {
+  font-size: 1.25rem;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+@media (min-width: 480px) {
+  .capsule-title {
+    font-size: 1.55rem;
+  }
+}
+@media (min-width: 640px) {
+  .capsule-title {
+    font-size: 1.875rem;
+  }
+}
+@media (min-width: 1024px) {
+  .capsule-title {
+    font-size: 2.25rem;
+  }
+}
+
+/* Oscilloscope Waveform Motion (Aegis-X) */
+@keyframes waveOscillate {
+  0% {
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    stroke-dashoffset: -120;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+  }
+  100% {
+    stroke-dashoffset: -240;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+}
+.telemetry-wave-animated {
+  stroke-dasharray: 12 4 120 4;
+  animation: waveOscillate 6s linear infinite;
+  transition: filter 0.3s ease, stroke-width 0.3s ease;
+}
+.filmstrip-item:hover .telemetry-wave-animated {
+  animation-duration: 2.5s;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+  stroke: #ffffff;
+}
+
+@keyframes scanAcross {
+  0% { transform: translateX(-100%); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+.oscilloscope-beam {
+  animation: scanAcross 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.filmstrip-item:hover .oscilloscope-beam {
+  animation-duration: 2s;
+}
+
+/* Radar Sweep Reticle (Nexus-V) */
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.radar-sweep-beam {
+  transform-origin: center center;
+  animation: radarSpin 4s linear infinite;
+}
+.radar-orbit-slow {
+  animation: radarSpin 24s linear infinite;
+}
+
+@keyframes blipEcho {
+  0%, 15% {
+    opacity: 0.15;
+    transform: scale(0.85);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 12px 3px rgba(255, 255, 255, 0.9), 0 0 20px 6px rgba(255, 51, 68, 0.5);
+  }
+  38% {
+    opacity: 0.85;
+    transform: scale(1);
+    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+.radar-blip-target {
+  animation: blipEcho 4s ease-out infinite;
+}
+
+.radar-ring {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.filmstrip-item:hover .radar-ring {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.03);
+}
+.filmstrip-item:hover .radar-center-hub {
+  box-shadow: 0 0 10px #ff3344;
+  background-color: #ff3344;
+}
+
+@keyframes beaconPulseHover {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(255, 51, 68, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 14px 4px rgba(255, 51, 68, 0.9);
+    transform: scale(1.25);
+  }
+}
+.filmstrip-item:hover .aegis-beacon {
+  animation: beaconPulseHover 0.9s ease-in-out infinite;
+  background-color: #ff3344;
+}
+
+.filter-tab {
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========================================================================= */
+/* CELESTIAL DISPATCHES: WRITING ORBIT LEDGER STYLES                         */
+/* ========================================================================= */
+.cosmic-grain {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@keyframes celestialRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.orbit-slow {
+  animation: celestialRotate 180s linear infinite;
+}
+
+.orbit-counter {
+  animation: celestialRotate 240s linear infinite reverse;
+}
+
+@keyframes solitaryBeacon {
+  0%, 100% { opacity: 0.85; transform: scale(1); filter: drop-shadow(0 0 4px rgba(255, 0, 60, 0.6)); }
+  50% { opacity: 1; transform: scale(1.25); filter: drop-shadow(0 0 10px rgba(255, 0, 60, 0.9)); }
+}
+
+.solitary-red-node {
+  animation: solitaryBeacon 3.2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ========================================================================= */
+/* DOSSIER: ABOUT PAGE STYLES & RETICULAR ANIMATIONS                         */
+/* ========================================================================= */
+.font-headline {
+  font-family: 'Anton', 'Impact', sans-serif;
+}
+
+.font-body {
+  font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+.tracking-aperture {
+  letter-spacing: 0.28em;
+}
+
+.tracking-stellar {
+  letter-spacing: 0.18em;
+}
+
+.aperture-grain {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 0.75px, transparent 0.75px);
+  background-size: 28px 28px;
+}
+
+.orbit-ring {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+}
+
+.orbit-ring-dashed {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-style: dashed;
+  border-radius: 9999px;
+}
+
+@keyframes apertureEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-stage-header { animation: apertureEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
+.animate-stage-hero   { animation: apertureEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.animate-stage-stats  { animation: apertureEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both; }
+.animate-stage-axes   { animation: apertureEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+.animate-stage-chrono { animation: apertureEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both; }
+.animate-stage-arsenal{ animation: apertureEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both; }
+.animate-stage-footer { animation: apertureEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-stage-header,
+  .animate-stage-hero,
+  .animate-stage-stats,
+  .animate-stage-axes,
+  .animate-stage-chrono,
+  .animate-stage-arsenal,
+  .animate-stage-footer {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+.axis-card {
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.axis-card .sweep-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 60, 0.8), rgba(255, 255, 255, 0.8), transparent);
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.2s ease;
+}
+
+.axis-card:hover .sweep-line {
+  opacity: 1;
+  animation: sweepAnim 1.4s ease-in-out infinite;
+}
+
+@keyframes sweepAnim {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.metric-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.metric-card:hover .metric-val {
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.metric-card:hover .metric-pip {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ========================================================================= */
+/* CINEMATIC PAGE TRANSITION & FILM NEGATIVE BANG STYLES (FROM HTML FILE)    */
+/* ========================================================================= */
+.film-negative-inverted {
+  filter: invert(1) contrast(200%) brightness(120%) hue-rotate(180deg) saturate(180%) !important;
+  transform: scale(1.025) !important;
+}
+
+.film-negative-punch {
+  transform: scale(0.985) !important;
+}
+
+#scanline-flare-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0px, rgba(255, 255, 255, 0.08) 1px, transparent 2px, transparent 4px), radial-gradient(circle at 50% 50%, rgba(255, 40, 70, 0.35) 0%, rgba(0, 220, 255, 0.25) 45%, transparent 75%);
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.25s ease-out;
+}
+
+#scanline-flare-fx.flare-active {
+  opacity: 0.95 !important;
+}
+
+/* ========================================================================= */
+/* SOLARIS ANALOG OVEREXPOSURE & SABATTIER SOLARIZED NEGATIVE FILM OUTRO     */
+/* ========================================================================= */
+/* Stage 1: Blinding 35mm Optical Flare Flash & Overexposure */
+#solaris-flash-stage1 {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle 90vmax at 50% 50%,
+    #ffffff 0%,
+    #fff9f0 25%,
+    rgba(255, 235, 195, 0.95) 50%,
+    rgba(255, 130, 45, 0.5) 75%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: inset 0 0 160px rgba(255, 240, 200, 0.9);
+  will-change: opacity;
+}
+
+#solaris-flash-stage1.active {
+  opacity: 1 !important;
+}
+
+/* Stage 2: Sabattier Solarization Negative Burst & Iridescent Thermal Halation */
+#solaris-burn-stage2 {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 85, 0, 0.75) 0%,
+    rgba(255, 0, 110, 0.55) 30%,
+    rgba(0, 235, 255, 0.45) 58%,
+    rgba(8, 14, 32, 0.92) 85%
+  );
+  mix-blend-mode: hard-light;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(6px);
+  will-change: opacity;
+}
+
+#solaris-burn-stage2.active {
+  opacity: 0.95 !important;
+}
+
+/* Stage 3: Thermal Cooldown Dissolve Layer (Heat Map Cooling back to deep obsidian) */
+#solaris-cooldown-stage3 {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9997;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 60, 0, 0.4) 0%,
+    rgba(90, 0, 180, 0.35) 40%,
+    rgba(3, 3, 5, 0.88) 72%,
+    #000000 100%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+
+#solaris-cooldown-stage3.active {
+  opacity: 1 !important;
+}
+
+/* Stage 2 Sabattier Inversion & Metallic Solarization Halo - Negative Film Effect (Full-Bleed, No Scale Box) */
+.solaris-sabattier-solarized {
+  filter: invert(1) hue-rotate(190deg) contrast(145%) saturate(170%) brightness(110%) !important;
+  transition: filter 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-negative-inverted,
+  .film-negative-punch,
+  .solaris-sabattier-solarized {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  #flash-bang-fx,
+  #scanline-flare-fx,
+  #solaris-flash-stage1,
+  #solaris-burn-stage2,
+  #solaris-cooldown-stage3 {
+    display: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* INNER CIRCLE NOTIFICATION TABLET (TOP SLIDE & DISSOLVE)                   */
+/* ========================================================================= */
+@keyframes tabletEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(-28px) scale(0.95);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes tabletDissolve {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.96);
+    filter: blur(8px);
+  }
+}
+
+.animate-tablet-enter {
+  animation: tabletEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-tablet-dissolve {
+  animation: tabletDissolve 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
